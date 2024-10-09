@@ -20,7 +20,6 @@ void UMoverComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
 	OriginalLocation = GetOwner()->GetActorLocation();	
 }
 
@@ -31,8 +30,14 @@ void UMoverComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 
 	if (ShouldMove)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("UMoverComponent::TickComponent"));
 		MoveActor(DeltaTime);
 	}
+}
+
+void UMoverComponent::SetShouldMove(const bool NewShouldMove)
+{
+	ShouldMove = NewShouldMove;
 }
 
 void UMoverComponent::MoveActor(const float DeltaTime) const

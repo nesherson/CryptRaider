@@ -31,7 +31,6 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void Release() const;
-
 	
 	UPROPERTY(EditAnywhere)
 	float MaxGrabDistance;
@@ -44,4 +43,5 @@ public:
 private:
 	
 	UPhysicsHandleComponent* GetPhysicsHandle() const;
+	bool GetGrabbableInReach(FHitResult& OutHitResult) const;
 };
