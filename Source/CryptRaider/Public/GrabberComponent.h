@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/SceneComponent.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
+
 #include "GrabberComponent.generated.h"
 
 
@@ -23,19 +25,23 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-
-	UFUNCTION(BlueprintCallable)
-	void Grab();
 	
 	UFUNCTION(BlueprintCallable)
-	void Release();
+	void Grab() const;
+	
+	UFUNCTION(BlueprintCallable)
+	void Release() const;
 
 	
 	UPROPERTY(EditAnywhere)
 	float MaxGrabDistance;
 
 	UPROPERTY(EditAnywhere)
+	float HoldDistance;
+
+	UPROPERTY(EditAnywhere)
 	float GrabRadius;
+private:
 	
+	UPhysicsHandleComponent* GetPhysicsHandle() const;
 };
