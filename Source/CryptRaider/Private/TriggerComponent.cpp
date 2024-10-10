@@ -1,6 +1,5 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #include "TriggerComponent.h"
+#include "GameFramework/Actor.h"
 
 UTriggerComponent::UTriggerComponent()
 {
@@ -16,11 +15,13 @@ void UTriggerComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	
-	const AActor* AcceptableActor = GetAcceptableActor();
-	
-	if (AcceptableActor != nullptr)
+
+	if (AActor* AcceptableActor = GetAcceptableActor())
 	{
+		if (UPrimitiveComponent* Component = Cast<UPrimitiveComponent>(AcceptableActor->GetRootComponent()))
+			Component->SetSimulatePhysics(false);
+		
+		AcceptableActor->AttachToComponent(this, FAttachmentTransformRules::KeepWorldTransform);
 		MoverComponent->SetShouldMove(true);
 	}
 	else
@@ -37,7 +38,7 @@ AActor* UTriggerComponent::GetAcceptableActor() const
 
 	for (AActor* Actor : OverlappingActors)
 	{
-		if (Actor->ActorHasTag(TriggerTagName))
+		if (Actor->ActorHasTag(TriggerTagName) && !Actor->ActorHasTag("Grabbed"))
 			return Actor;
 	}
 
